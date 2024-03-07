@@ -5,7 +5,7 @@ This project serves as a template for individuals interested in building agents 
 ## Directory Structure
 
 - `resources`: This directory contains additional resources for the project. An example agent is provided for reference.
-- `agent_machine`: This directory is where any custom code should be placed.
+- `components`: This directory is where any custom code should be placed.
 
 ## Running the Server
 
