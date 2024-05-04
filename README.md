@@ -1,6 +1,16 @@
-# Eidolon Agent Machine Template
+# Eidolon Git Search Recipe
 
-This project serves as a template for individuals interested in building agents with Eidolon.
+Interact with a RAG enabled copilot that has access to a repository via vector search.
+
+## Agents
+### Repo Expert
+The user facing copilot. Ask this agent questions about a repository, and it will go and find the answer with the 
+assistance of the repo search agent.
+
+### Repo Search
+Handles loading, embedding, and re-embedding documents ensuring they are up-to-date.
+
+Translates queries into a vector search query and returns the top results.
 
 ## Directory Structure
 
