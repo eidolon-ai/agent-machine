@@ -1,6 +1,12 @@
 # Eidolon Git Search Recipe
 
-Interact with a RAG enabled copilot that has access to a repository via vector search.
+In this recipe we have created a github copilot who can answer questions about the Eidolon monorepo. It dynamically pulls in information via similarity search to answer user queries.
+This is important if you have a body of information that is constantly changing, but you need real time information about (ie, a git repository).
+
+## Core Concepts
+* Multi-agent communication
+* Sub-component customization
+* Dynamic embedding management
 
 ## Agents
 ### Repo Expert
