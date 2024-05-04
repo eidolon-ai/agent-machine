@@ -9,14 +9,10 @@ This project serves as a template for individuals interested in building agents 
 
 ## Running the Server
 
-To run the server, use the following command:
+To run the server in dev mode, use the following command:
 
 ```bash
-poetry run eidolon-server resources/
+make serve-dev
 ```
 
-If you wish to run the server without MongoDB, include the `-m local_dev` flag:
-
-```bash
-poetry run eidolon-server resources/ -m local_dev
-```
+This will start the Eidolon http server without MongoDB along with some other dev tools such as recordings.
