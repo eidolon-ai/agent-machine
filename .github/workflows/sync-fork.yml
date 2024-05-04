@@ -8,9 +8,6 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    env:
-      SYNC_FORK: ${{ env.SYNC_FORK }}
-    if: ${{ env.SYNC_FORK != 'disable' }}
     steps:
       - uses: tgymnich/fork-sync@v1.8
         with:
