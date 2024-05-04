@@ -8,7 +8,9 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    if: ${{ secrets.SYNC_FORK != 'disable' }}
+    env:
+      SYNC_FORK: ${{ env.SYNC_FORK }}
+    if: ${{ env.SYNC_FORK != 'disable' }}
     steps:
       - uses: tgymnich/fork-sync@v1.8
         with:
