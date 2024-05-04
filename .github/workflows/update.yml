@@ -25,7 +25,7 @@ jobs:
           python-version: '3.11'
           cache: 'poetry'
       - name: "Updating Eidolon SDK"
-        run: poetry add eidolon-sdk@latest
+        run: poetry add eidolon-ai-sdk@latest
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "bumping eidolon version"
