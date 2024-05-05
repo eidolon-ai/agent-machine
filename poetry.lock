@@ -1330,13 +1330,13 @@ gmpy2 = ["gmpy2"]
 
 [[package]]
 name = "eidolon-ai-client"
-version = "0.1.15"
+version = "0.1.16"
 description = ""
 optional = false
 python-versions = "<3.12,>=3.11"
 files = [
-    {file = "eidolon_ai_client-0.1.15-py3-none-any.whl", hash = "sha256:39dc4548fdf378ebfe3237404862543814ca55d09802118926e4bc163e289fab"},
-    {file = "eidolon_ai_client-0.1.15.tar.gz", hash = "sha256:13ead26826a8037b87daeb73298494f2f532b4a20d7282396ba5ef305c2417ae"},
+    {file = "eidolon_ai_client-0.1.16-py3-none-any.whl", hash = "sha256:30e828a6336664c0314edf866908a77240a57c160a563478c0b036a4593bb507"},
+    {file = "eidolon_ai_client-0.1.16.tar.gz", hash = "sha256:f3159dd82a3cbfc155927a72f25402b22a5a9b8aae428139c8fb0c6adfacd767"},
 ]
 
 [package.dependencies]
@@ -1369,13 +1369,13 @@ pydantic = ">=2.5.2,<3.0.0"
 
 [[package]]
 name = "eidolon-ai-sdk"
-version = "0.1.46"
+version = "0.1.47"
 description = "An Open Source Agent Services Framework"
 optional = false
 python-versions = "<3.12,>=3.11"
 files = [
-    {file = "eidolon_ai_sdk-0.1.46-py3-none-any.whl", hash = "sha256:6d651cd7812e0b80d731f80b103051efbcf16eb20d557a0b51590a8b1df161f3"},
-    {file = "eidolon_ai_sdk-0.1.46.tar.gz", hash = "sha256:382b13e58988ece0fa2804529490686e64a7134baf62a2761dc93b6c300c1c7d"},
+    {file = "eidolon_ai_sdk-0.1.47-py3-none-any.whl", hash = "sha256:affbe91418906c034d63b6957f766afbc243941e53a01d3723d5697b5864a3a0"},
+    {file = "eidolon_ai_sdk-0.1.47.tar.gz", hash = "sha256:279f99b9cf75b051b1049f68e5e74dc469ac6c189101ea8c514cec48dd5aef2c"},
 ]
 
 [package.dependencies]
@@ -1386,7 +1386,7 @@ boto3 = ">=1.34.74,<2.0.0"
 boto3-stubs = {version = ">=1.34.74,<2.0.0", extras = ["essential"]}
 chromadb = ">=0.4.18,<0.5.0"
 dill = ">=0.3.8,<0.4.0"
-eidolon-ai-client = ">=0.1.15,<0.2.0"
+eidolon-ai-client = ">=0.1.16,<0.2.0"
 eidolon-ai-mistralai = ">=0.1.6a,<0.2.0"
 eidolon-ai-usage-client = ">=0.1.6,<0.2.0"
 esprima = ">=4.0.1,<5.0.0"
@@ -5628,4 +5628,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.12"
-content-hash = "33947a2e4683f5651e758984f570bd93c533cfa64227be5f345039f9b61d65c4"
+content-hash = "11790a1039d7d67849691bcb62f716f14e889f5d38fe573a905b6d940f4be59a"
