@@ -28,7 +28,10 @@ Translates queries into a vector search query and returns the top results.
 To run the server in dev mode, use the following command:
 
 ```bash
+export GITHUB_TOKEN=<YOUR GITHUB TOKEN>
 make serve-dev
 ```
+
+🚨 Make sure you sure you set `GITHUB_TOKEN` otherwise you will hit rate limit errors.
 
 This will start the Eidolon http server without MongoDB along with some other dev tools such as recordings.
