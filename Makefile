@@ -1,4 +1,10 @@
-.PHONY: serve serve-dev check
+DOCKER_NAMESPACE := eidolon-ai
+DOCKER_REPO_NAME := agent-machine
+VERSION := $(shell grep -m 1 '^version = ' pyproject.toml | awk -F '"' '{print $$2}')
+SDK_VERSION := $(shell grep -m 1 '^eidolon-ai-sdk = ' pyproject.toml | awk -F '[="^]' '{print $$4}')
+
+
+.PHONY: serve serve-dev check docker docker-bash docker-push _docker-push
 
 include .env
 
@@ -26,5 +32,15 @@ poetry.lock: pyproject.toml
 .env:
 	@cp .template.env .env
 
-%:
-	@:
+docker:
+	docker build --build-arg EIDOLON_VERSION=${SDK_VERSION} -t ${DOCKER_NAMESPACE}/${DOCKER_REPO_NAME}:latest -t ${DOCKER_NAMESPACE}/${DOCKER_REPO_NAME}:${VERSION} .
+
+docker-bash: docker
+	docker run --rm -it --entrypoint bash ${DOCKER_NAMESPACE}/${DOCKER_REPO_NAME}:latest
+
+docker-push:
+	@docker manifest inspect $(DOCKER_NAMESPACE)/${DOCKER_REPO_NAME}:$(VERSION) >/dev/null && echo "Image exists" || $(MAKE) _docker-push
+
+_docker-push: docker
+	docker push ${DOCKER_NAMESPACE}/${DOCKER_REPO_NAME}
+	docker push ${DOCKER_NAMESPACE}/${DOCKER_REPO_NAME}:${VERSION}
