@@ -32,7 +32,7 @@ poetry.lock: pyproject.toml
 .env:
 	@cp .template.env .env
 
-docker:
+docker: poetry.lock
 	docker build --build-arg EIDOLON_VERSION=${SDK_VERSION} -t ${DOCKER_NAMESPACE}/${DOCKER_REPO_NAME}:latest -t ${DOCKER_NAMESPACE}/${DOCKER_REPO_NAME}:${VERSION} .
 
 docker-bash: docker
