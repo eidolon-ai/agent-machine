@@ -6,7 +6,9 @@ SDK_VERSION := $(shell grep -m 1 '^eidolon-ai-sdk = ' pyproject.toml | awk -F '[
 
 .PHONY: serve serve-dev check docker docker-bash docker-push _docker-push
 
+# Load environment variables from .env file.
 include .env
+$(eval export $(shell sed -ne 's/ *#.*$$//; /./ s/=.*$$// p' .env))
 
 check: .env
 	@[[ -z "${OPENAI_API_KEY}" ]] && echo "🚨 Error: OPENAI_API_KEY not set" && exit 1 || echo "👍 OPENAI_API_KEY set"
