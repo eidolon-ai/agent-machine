@@ -1330,13 +1330,12 @@ gmpy2 = ["gmpy2"]
 
 [[package]]
 name = "eidolon-ai-client"
-version = "0.1.21"
+version = "0.1.22"
 description = "Eidolon python client and CLI"
 optional = false
 python-versions = "<3.12,>=3.11"
 files = [
-    {file = "eidolon_ai_client-0.1.21-py3-none-any.whl", hash = "sha256:83f33f9f2fb578b78f748171acd59d36b1667e867696158e9eaac13cd728d807"},
-    {file = "eidolon_ai_client-0.1.21.tar.gz", hash = "sha256:e60aca2f251dd1641af829d09bfb83c1e00df50bb1b83dc2e3a370fc1c514ff3"},
+    {file = "eidolon_ai_client-0.1.22-py3-none-any.whl", hash = "sha256:4616e91096bfc3318dfc55bac9b0ef64f4aaa365c97861ebb10421e6263e2540"},
 ]
 
 [package.dependencies]
@@ -1369,13 +1368,13 @@ pydantic = ">=2.5.2,<3.0.0"
 
 [[package]]
 name = "eidolon-ai-sdk"
-version = "0.1.56"
+version = "0.1.59"
 description = "An open source sgent service SDK"
 optional = false
 python-versions = "<3.12,>=3.11"
 files = [
-    {file = "eidolon_ai_sdk-0.1.56-py3-none-any.whl", hash = "sha256:6fef8989289946348e1640a5af9b40370444749cfad49cea5c19c10dfd318f4d"},
-    {file = "eidolon_ai_sdk-0.1.56.tar.gz", hash = "sha256:94306807cca04f1b7b3367c191e5e78f3a7b5de865e1c91555c346ad725dad01"},
+    {file = "eidolon_ai_sdk-0.1.59-py3-none-any.whl", hash = "sha256:52711ff563cd393b31520f090a43bbad993b54545355c234d6b3c4872e76b94e"},
+    {file = "eidolon_ai_sdk-0.1.59.tar.gz", hash = "sha256:3ff91b9e57a0efd82f28e82d55c77a4250276f31f7ee76931dff6f3c34900adc"},
 ]
 
 [package.dependencies]
@@ -1386,7 +1385,7 @@ boto3 = ">=1.34.74,<2.0.0"
 boto3-stubs = {version = ">=1.34.74,<2.0.0", extras = ["essential"]}
 chromadb = ">=0.4.18,<0.5.0"
 dill = ">=0.3.8,<0.4.0"
-eidolon-ai-client = ">=0.1.21,<0.2.0"
+eidolon-ai-client = ">=0.1.22,<0.2.0"
 eidolon-ai-mistralai = ">=0.1.6a,<0.2.0"
 eidolon-ai-usage-client = ">=0.1.6,<0.2.0"
 esprima = ">=4.0.1,<5.0.0"
@@ -5628,4 +5627,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.12"
-content-hash = "c2774acc6504ff081d5fa234edde5c8bee46277d3b2400981cce8eb93de2abf4"
+content-hash = "2a47226fff9807f1434ba62eec8aba4bfa22f4d5495127b517dfcbbf25361b5c"
