@@ -1369,13 +1369,13 @@ pydantic = ">=2.5.2,<3.0.0"
 
 [[package]]
 name = "eidolon-ai-sdk"
-version = "0.1.68"
+version = "0.1.69"
 description = "An open source sgent service SDK"
 optional = false
 python-versions = "<3.12,>=3.11"
 files = [
-    {file = "eidolon_ai_sdk-0.1.68-py3-none-any.whl", hash = "sha256:18c7ce029b1789e28e568286586ea7902067d8a8b1a98f1b6102d8c9c667dbe8"},
-    {file = "eidolon_ai_sdk-0.1.68.tar.gz", hash = "sha256:a8f8f0e448da22982358f1b3d40cfdcc06f3fbac3da2ef32eef849d1489c0996"},
+    {file = "eidolon_ai_sdk-0.1.69-py3-none-any.whl", hash = "sha256:5915118b655be9165ed2854ef6712949737c5615d99ff6b33f545acead6b4d50"},
+    {file = "eidolon_ai_sdk-0.1.69.tar.gz", hash = "sha256:ca391b4d90bb1dbf98f0aec3230339952dc448f2d22ec7cdb0c0a87b66f19aad"},
 ]
 
 [package.dependencies]
@@ -1408,7 +1408,6 @@ opentelemetry-sdk = ">=1.23.0,<2.0.0"
 pillow = ">=10.2.0,<11.0.0"
 playwright = ">=1.43.0,<2.0.0"
 posthog = ">=3.5.0,<4.0.0"
-pypdf = ">=4.0.1,<5.0.0"
 pytest-json-report = ">=1.5.0,<2.0.0"
 python-docx = ">=1.1.0,<2.0.0"
 python-dotenv = ">=1.0.1,<2.0.0"
@@ -5644,4 +5643,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.12"
-content-hash = "4b2c7669c825eb39115db7d9584b2fb12c7031dbdb5576df71ae4c52e41963c8"
+content-hash = "88a1d5da5d63c16facee81b27af43aec48f1850c6c9cf4688a41e84d11748cf1"
