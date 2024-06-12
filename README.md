@@ -15,4 +15,15 @@ To run the server in dev mode, use the following command:
 make serve-dev
 ```
 
-This will start the Eidolon http server without MongoDB along with some other dev tools such as recordings.
+This will start the Eidolon http server without MongoDB along with some other dev tools such as recordings. You may be 
+prompted for environment variables as required by Makefile.
+
+If the server starts successfully, you should see the following output:
+```
+Starting Server...
+INFO:     Started server process [34623]
+INFO:     Waiting for application startup.
+INFO - Building machine 'local_dev'
+...
+INFO - Server Started in 1.50s
+```
