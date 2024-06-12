@@ -9,7 +9,14 @@ This project serves as a template for individuals interested in building agents 
 
 ## Running the Server
 
-To run the server in dev mode, use the following command:
+First you need to clone the project and navigate to the project directory:
+
+```bash
+git clone https://github.com/eidolon-ai/agent-machine.git
+cd agent-machine
+```
+
+Then run the server in dev mode, use the following command:
 
 ```bash
 make serve-dev
