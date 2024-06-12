@@ -22,11 +22,11 @@ Then run the server in dev mode, use the following command:
 make serve-dev
 ```
 
-The first time you run this command, you may be prompted to enter missing Environment Variables that the machine needs 
-to run.
+The first time you run this command, you may be prompted to enter credentials that the machine needs 
+to run (ie, OpenAI API Key).
 
-This command will download the dependencies required to run your agent machine and start the Eidolon http server without 
-MongoDB along with some other dev tools such as recordings.
+This command will download the dependencies required to run your agent machine and start the Eidolon http server in 
+"dev-mode".
 
 If the server starts successfully, you should see the following output:
 ```
