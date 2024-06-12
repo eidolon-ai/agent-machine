@@ -22,8 +22,11 @@ Then run the server in dev mode, use the following command:
 make serve-dev
 ```
 
-This will start the Eidolon http server without MongoDB along with some other dev tools such as recordings. You may be 
-prompted for environment variables as required by Makefile.
+The first time you run this command, you may be prompted to enter missing Environment Variables that the machine needs 
+to run.
+
+This command will download the dependencies required to run your agent machine and start the Eidolon http server without 
+MongoDB along with some other dev tools such as recordings.
 
 If the server starts successfully, you should see the following output:
 ```
