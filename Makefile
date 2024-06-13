@@ -8,11 +8,11 @@ REQUIRED_ENVS := OPENAI_API_KEY
 
 serve-dev: .make/poetry_install .env
 	@echo "Starting Server..."
-	@. .env && poetry run eidolon-server -m local_dev resources
+	@poetry run eidolon-server -m local_dev resources --dotenv .env
 
 serve: .make/poetry_install .env
 	@echo "Starting Server..."
-	@. .env && poetry run eidolon-server resources
+	@poetry run eidolon-server resources --dotenv .env
 
 .env: Makefile
 	@touch .env
