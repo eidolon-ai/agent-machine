@@ -1,7 +1,7 @@
 name: Update Eidolon SDK
 on:
   schedule:
-    - cron: '0 * * * *'  # Run daily at midnight
+    - cron: '0 * * * *'  # every hour
   workflow_dispatch:
 
 concurrency:
