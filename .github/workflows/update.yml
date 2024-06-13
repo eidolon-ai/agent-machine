@@ -25,7 +25,12 @@ jobs:
           python-version: '3.11'
           cache: 'poetry'
       - name: "Updating Dependencies"
-        run: make update
+        run: |
+          if [ "${{ github.repository }}" == "eidolon-ai/agent-machine" ]; then
+            make update
+          else
+            make sync
+          fi
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "bumping eidolon version"
