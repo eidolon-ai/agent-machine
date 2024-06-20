@@ -5309,13 +5309,13 @@ typing-extensions = ">=3.7.4"
 
 [[package]]
 name = "unstructured"
-version = "0.14.6"
+version = "0.14.7"
 description = "A library that prepares raw documents for downstream ML tasks."
 optional = false
 python-versions = "<3.13,>=3.9.0"
 files = [
-    {file = "unstructured-0.14.6-py3-none-any.whl", hash = "sha256:ab7d83016e46d3c221f6dae8b1040492ee69f7a97cb53c0f2109b54f0b764d19"},
-    {file = "unstructured-0.14.6.tar.gz", hash = "sha256:5dddf44908faa0f5250c02f41768fd4ce3792496d3e00258fd33f68c24b902c1"},
+    {file = "unstructured-0.14.7-py3-none-any.whl", hash = "sha256:78e029eb2dd3dc792989af2133cb5472e6a17a501cf415cd8c095f1a88763738"},
+    {file = "unstructured-0.14.7.tar.gz", hash = "sha256:219f6ae8a8c5a23e5e6944d3a78d1c7f162ee01e7c6034afe2e5052eef679918"},
 ]
 
 [package.dependencies]
@@ -5358,7 +5358,7 @@ discord = ["discord-py"]
 doc = ["python-docx (>=1.1.2)"]
 docx = ["python-docx (>=1.1.2)"]
 dropbox = ["dropboxdrivefs", "fsspec"]
-elasticsearch = ["elasticsearch"]
+elasticsearch = ["elasticsearch[async]"]
 embed-huggingface = ["huggingface", "langchain-community", "sentence-transformers"]
 embed-octoai = ["openai", "tiktoken"]
 embed-vertexai = ["langchain", "langchain-community", "langchain-google-vertexai"]
