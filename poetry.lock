@@ -5947,13 +5947,13 @@ xlsx = ["networkx", "openpyxl", "pandas", "xlrd"]
 
 [[package]]
 name = "unstructured-client"
-version = "0.23.9"
+version = "0.24.0"
 description = "Python Client SDK for Unstructured API"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "unstructured-client-0.23.9.tar.gz", hash = "sha256:c049673810b996ab373d2d8c53f6f6064fa3a096c7bb1b7f5593387d29bbe37d"},
-    {file = "unstructured_client-0.23.9-py3-none-any.whl", hash = "sha256:4edf349466fd54c4bffc16bde265c5a29e392d890fdd7049d7c3cca3cef82ec2"},
+    {file = "unstructured-client-0.24.0.tar.gz", hash = "sha256:c087715121a369393532036a357a858782d203ddba697610132c9e7687b7a295"},
+    {file = "unstructured_client-0.24.0-py3-none-any.whl", hash = "sha256:f73d13765213234d489b1bc426adb0ea63135ccaf776a1646b08dba80e57f86a"},
 ]
 
 [package.dependencies]
