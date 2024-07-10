@@ -35,7 +35,6 @@ serve: .make/poetry_install .env
 	@mkdir -p .make
 
 .make/poetry_install: .make poetry.lock
-	@poetry env use 3.11
 	poetry install
 	@touch .make/poetry_install
 
