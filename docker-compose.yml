@@ -1,10 +1,14 @@
-version: '3.8'
-
 services:
   eidolon-server:
     build:
       context: .
       dockerfile: Dockerfile
+    develop:
+      watch:
+        - path: ./components
+          action: rebuild
+        - path: ./pyproject.toml
+          action: rebuild
     ports:
       - "8080:8080"
     env_file:
