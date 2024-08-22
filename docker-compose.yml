@@ -1,5 +1,5 @@
 services:
-  eidolon-server:
+  agent-server:
     build:
       context: .
       dockerfile: Dockerfile
@@ -17,15 +17,15 @@ services:
       - ./resources:/bound_resources
     command: /bound_resources/ -m local_dev --reload
 
-  eidolon-webui:
+  webui:
     image: eidolonai/webui:latest
     environment:
       - NEXTAUTH_SECRET=secret
-      - EIDOLON_SERVER=http://eidolon-server:8080
+      - EIDOLON_SERVER=http://agent-server:8080
       - EIDOLON_APP_REGISTRY_LOC=/app/apps/eidolon-ui2/eidolon-apps-override.json
     volumes:
       - ./webui.apps.json:/app/apps/eidolon-ui2/eidolon-apps-override.json
     ports:
       - "3000:3000"
     depends_on:
-      - eidolon-server
+      - agent-server
