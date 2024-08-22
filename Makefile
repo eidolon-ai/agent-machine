@@ -49,6 +49,11 @@ poetry.lock: pyproject.toml
 	@poetry lock --no-update
 	@touch poetry.lock
 
+Dockerfile: pyproject.toml
+	@sed -i '' 's/^ARG EIDOLON_VERSION=.*/ARG EIDOLON_VERSION=${SDK_VERSION}/' Dockerfile
+	@echo "Updated Dockerfile with EIDOLON_VERSION=${SDK_VERSION}"
+
+
 check-docker-daemon:
 	@docker info >/dev/null 2>&1 || (echo "🚨 Error: Docker daemon is not running\n🛟 For help installing or running docker, visit https://docs.docker.com/get-docker/" >&2 && exit 1)
 
@@ -71,6 +76,7 @@ _docker-push: docker
 update:
 	poetry add eidolon-ai-sdk@latest
 	poetry lock --no-update
+	$(MAKE) Dockerfile
 
 sync:
 	@if git remote | grep -q upstream; then \
