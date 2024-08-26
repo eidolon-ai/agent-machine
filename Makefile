@@ -4,7 +4,7 @@ VERSION := $(shell grep -m 1 '^version = ' pyproject.toml | awk -F '"' '{print $
 SDK_VERSION := $(shell grep -m 1 '^eidolon-ai-sdk = ' pyproject.toml | awk -F '[="^]' '{print $$4}')
 REQUIRED_ENVS := OPENAI_API_KEY
 
-.PHONY: serve serve-dev check docker-serve .env sync update
+.PHONY: serve serve-dev check docker-serve .env sync update docker-build k8s-operator check-kubectl check-cluster-running verify-k8s-permissions check-install-operator k8s-serve k8s-env
 
 ARGS ?=
 
@@ -53,7 +53,6 @@ Dockerfile: pyproject.toml
 	@sed -i '' 's/^ARG EIDOLON_VERSION=.*/ARG EIDOLON_VERSION=${SDK_VERSION}/' Dockerfile
 	@echo "Updated Dockerfile with EIDOLON_VERSION=${SDK_VERSION}"
 
-
 check-docker-daemon:
 	@docker info >/dev/null 2>&1 || (echo "🚨 Error: Docker daemon is not running\n🛟 For help installing or running docker, visit https://docs.docker.com/get-docker/" >&2 && exit 1)
 
@@ -74,3 +73,43 @@ sync:
 	fi
 	git fetch upstream
 	git merge upstream/main --no-edit
+
+k8s-operator: check-kubectl check-cluster-running verify-k8s-permissions check-install-operator
+	@echo "K8s environment is ready. You can now deploy your application."
+
+# Check if kubectl is available
+check-kubectl:
+	@which kubectl > /dev/null || (echo "kubectl is not installed. Please install it and try again." && exit 1)
+
+# Check if the cluster is running
+check-cluster-running:
+	@kubectl cluster-info > /dev/null 2>&1 || (echo "Kubernetes cluster is not running. Please start your cluster and try again." && exit 1)
+
+# Verify K8s permissions
+verify-k8s-permissions:
+	@./verify_k8s -q || (echo "K8s permission verification failed. Please check your permissions and try again." && exit 1)
+
+# Check if Eidolon operator is installed, install if not
+check-install-operator:
+	@if ! helm list | grep -q "eidolon"; then \
+		echo "Eidolon operator not found. Installing..."; \
+		helm repo add eidolon https://eidolonai.com/charts; \
+		helm install eidolon eidolon-operator/eidolon-operator-chart || (echo "Failed to install Eidolon operator" && exit 1); \
+	else \
+		echo "Eidolon operator is already installed."; \
+	fi
+
+k8s-serve: check-cluster-running docker-build k8s-env
+	@kubectl apply -f resources/ephemeral_machine.yaml -f resources/hello_world_agent.yaml
+	@echo "Waiting for eidolon-deployment to be ready..."
+	@kubectl rollout status deployment/eidolon-deployment --timeout=60s
+	@echo "Deployment is ready. Tailing logs from new pods..."
+	@POD=$$(kubectl get pods -l app=eidolon --sort-by=.metadata.creationTimestamp -o jsonpath="{.items[-1:].metadata.name}") && \
+	kubectl logs -f $${POD} --all-containers=true
+
+k8s-env: .env
+	@if [ ! -f .env ]; then echo ".env file not found!"; exit 1; fi
+	@kubectl create secret generic eidolon --from-env-file=./.env --dry-run=client -o yaml | kubectl apply -f -
+
+docker-build: poetry.lock Dockerfile
+	@docker build -t $(DOCKER_NAMESPACE)/$(DOCKER_REPO_NAME):$(VERSION) .

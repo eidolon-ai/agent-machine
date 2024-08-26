@@ -7,7 +7,7 @@ This project serves as a template for individuals interested in building agents 
 - `resources`: This directory contains additional resources for the project. An example agent is provided for reference.
 - `components`: This directory is where any custom code should be placed.
 
-## Running the Server
+## Running the Server in Docker
 
 First you need to clone the project and navigate to the project directory:
 
@@ -36,4 +36,37 @@ INFO:     Waiting for application startup.
 INFO - Building machine 'local_dev'
 ...
 INFO - Server Started in 1.50s
+```
+
+## Running the server in K8s
+
+First you need to clone the project and navigate to the project directory:
+
+```bash
+git clone https://github.com/eidolon-ai/agent-machine.git
+cd agent-machine
+```
+
+Then make sure your kubernetes environment is set up properly and install the Eidolon k8s operator.
+
+```bash
+make k8s-operator
+```
+
+This will install the Eidolon operator in your k8s cluster. **This only needs to be done once.**
+
+Next install the Eidolon resources. This will create an Eidolon machine and an Eidolon agent in your cluster, start them, and tail the logs:
+
+```bash
+make k8s-serve
+```
+
+If the server starts successfully, you should see the following output:
+```
+Deployment is ready. Tailing logs from new pods...
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+INFO - Building machine 'local-dev'
+INFO - Starting agent 'hello-world'
+INFO - Server Started in 0.86s
 ```
