@@ -2,7 +2,7 @@ apiVersion: server.eidolonai.com/v1alpha1
 kind: Machine
 metadata:
   # Name of the machine. This must be unique within the namespace and be a valid DNS subdomain.
-  name: local-dev
+  name: eidolon-sample
 
 spec:
   image: my-eidolon-project:latest # The image to use for the machine. Set this for production or cloud based environments
