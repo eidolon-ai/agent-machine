@@ -5,9 +5,10 @@ metadata:
   name: local-dev
 
 spec:
-  image: docker.io/eidolonai/sdk:latest # The image to use for the machine
-  imagePullPolicy: Always # The image pull policy for the machine
+  image: my-eidolon-project:latest # The image to use for the machine. Set this for production or cloud based environments
+  imagePullPolicy: Never # WARNING: Change this for production or cloud based environments
   # The environment variables to set in the machine. In this case, we are using a secret to set the environment variables named `eidolon`.
+  # These secrets are set up by the makefile
   envFrom:
     - secretRef:
         name: eidolon

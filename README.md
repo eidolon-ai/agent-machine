@@ -40,14 +40,25 @@ INFO - Server Started in 1.50s
 
 ## Running the server in K8s
 
-First you need to clone the project and navigate to the project directory:
+### Prerequisites
+
+WARNING: This will work for local k8s environments only. See [Readme.k8s.md](./Readme.k8s.md) if you are using this against a cloud based k8s environment.
+
+To use kubernetes for local development, you will need to have the following installed:
+* [Docker](https://docs.docker.com/get-docker/)
+* [Kubernetes](https://kubernetes.io/docs/tasks/tools/)
+* [Helm](https://helm.sh/docs/intro/install/)
+
+Clone the project and navigate to the project directory:
 
 ```bash
 git clone https://github.com/eidolon-ai/agent-machine.git
 cd agent-machine
 ```
 
-Then make sure your kubernetes environment is set up properly and install the Eidolon k8s operator.
+### Installation
+
+Make sure your kubernetes environment is set up properly and install the Eidolon k8s operator.
 
 ```bash
 make k8s-operator

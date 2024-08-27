@@ -1,10 +1,9 @@
-DOCKER_NAMESPACE := eidolon-ai
-DOCKER_REPO_NAME := agent-machine
+DOCKER_REPO_NAME := my-eidolon-project
 VERSION := $(shell grep -m 1 '^version = ' pyproject.toml | awk -F '"' '{print $$2}')
 SDK_VERSION := $(shell grep -m 1 '^eidolon-ai-sdk = ' pyproject.toml | awk -F '[="^]' '{print $$4}')
 REQUIRED_ENVS := OPENAI_API_KEY
 
-.PHONY: serve serve-dev check docker-serve .env sync update docker-build k8s-operator check-kubectl check-cluster-running verify-k8s-permissions check-install-operator k8s-serve k8s-env
+.PHONY: serve serve-dev check docker-serve .env sync update docker-build k8s-operator check-kubectl check-helm check-cluster-running verify-k8s-permissions check-install-operator k8s-serve k8s-env
 
 ARGS ?=
 
@@ -74,8 +73,12 @@ sync:
 	git fetch upstream
 	git merge upstream/main --no-edit
 
-k8s-operator: check-kubectl check-cluster-running verify-k8s-permissions check-install-operator
+k8s-operator: check-kubectl check-helm check-cluster-running verify-k8s-permissions check-install-operator
 	@echo "K8s environment is ready. You can now deploy your application."
+
+# Check if helm is available
+check-helm:
+	@which helm > /dev/null || (echo "helm is not installed. Please install it and try again." && exit 1)
 
 # Check if kubectl is available
 check-kubectl:
@@ -100,7 +103,7 @@ check-install-operator:
 	fi
 
 k8s-serve: check-cluster-running docker-build k8s-env
-	@kubectl apply -f resources/ephemeral_machine.yaml -f resources/hello_world_agent.yaml
+	@kubectl apply -f resources/
 	@echo "Waiting for eidolon-deployment to be ready..."
 	@kubectl rollout status deployment/eidolon-deployment --timeout=60s
 	@echo "Deployment is ready. Tailing logs from new pods..."
@@ -112,4 +115,4 @@ k8s-env: .env
 	@kubectl create secret generic eidolon --from-env-file=./.env --dry-run=client -o yaml | kubectl apply -f -
 
 docker-build: poetry.lock Dockerfile
-	@docker build -t $(DOCKER_NAMESPACE)/$(DOCKER_REPO_NAME):$(VERSION) .
+	@docker build -t $(DOCKER_REPO_NAME):latest .
