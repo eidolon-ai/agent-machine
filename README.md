@@ -42,7 +42,7 @@ INFO - Server Started in 1.50s
 
 ### Prerequisites
 
-WARNING: This will work for local k8s environments only. See [Readme.k8s.md](./Readme.k8s.md) if you are using this against a cloud based k8s environment.
+WARNING: This will work for local k8s environments only. See [Readme.md in the k8s directory](./k8s/Readme.md) if you are using this against a cloud based k8s environment.
 
 To use kubernetes for local development, you will need to have the following installed:
 * [Docker](https://docs.docker.com/get-docker/)
