@@ -1,7 +1,7 @@
-apiVersion: eidolon/v1
+apiVersion: server.eidolonai.com/v1alpha1
 kind: Agent
 metadata:
-  name: hello_world
+  name: hello-world
 
 spec:
   description: "This is an example of a generic agent which greets people by name."
