@@ -102,13 +102,30 @@ check-install-operator:
 		echo "Eidolon operator is already installed."; \
 	fi
 
-k8s-serve: check-cluster-running docker-build k8s-env
+k8s-serve: k8s-server k8s-webui
+	@echo "Press Ctrl+C to exit"
+	@echo "------------------------------------------------------------------"
+	@echo "Server is running at $$(./k8s/get_service_url.sh eidolon-ext-service)"
+	@echo "WebUI is running at $$(./k8s/get_service_url.sh eidolon-webui-service)"
+	@echo "------------------------------------------------------------------"
+	kubectl logs -f \
+		-l 'app in (eidolon, eidolon-webui)' \
+		--all-containers=true \
+		--prefix=true
+
+k8s-server: check-cluster-running docker-build k8s-env
 	@kubectl apply -f resources/
+	@kubectl apply -f k8s/local-dev-service.yaml
 	@echo "Waiting for eidolon-deployment to be ready..."
 	@kubectl rollout status deployment/eidolon-deployment --timeout=60s
-	@echo "Deployment is ready. Tailing logs from new pods..."
-	@POD=$$(kubectl get pods -l app=eidolon --sort-by=.metadata.creationTimestamp -o jsonpath="{.items[-1:].metadata.name}") && \
-	kubectl logs -f $${POD} --all-containers=true
+	@echo "Server Deployment is ready."
+
+k8s-webui:
+	@kubectl create configmap webui-apps-config --from-file=./webui.apps.json -o yaml --dry-run=client | kubectl apply -f -
+	@kubectl apply -f k8s/webui.yaml
+	@echo "Waiting for eidolon-webui to be ready..."
+	@kubectl rollout status deployment/eidolon-webui-deployment --timeout=60s
+	@echo "WebUI Deployment is ready."
 
 k8s-env: .env
 	@if [ ! -f .env ]; then echo ".env file not found!"; exit 1; fi
