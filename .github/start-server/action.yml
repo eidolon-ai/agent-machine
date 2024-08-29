@@ -6,12 +6,12 @@ runs:
   steps:
     - name: start server
       shell: bash
-      run: bash -c "yes || true" | make docker-serve ARGS="--detach"
+      run: yes TESTVALUE | make docker-serve ARGS="--detach" || true
     - name: check server is running
       shell: bash
       run: |
         start_time=$(date +%s)
-        timeout=300  # 5 minutes in seconds
+        timeout=60
         
         while true; do
           current_time=$(date +%s)
@@ -27,3 +27,5 @@ runs:
             echo "Timeout reached. Server did not respond within 5 minutes."
             exit 1
           fi
+          sleep 1
+        done
