@@ -6,7 +6,7 @@ runs:
   steps:
     - name: start server
       shell: bash
-      run: make docker-serve Args="--detach"
+      run: yes TESTVALUE | make docker-serve Args="--detach"
     - name: check server is running
       shell: bash
       run: |
