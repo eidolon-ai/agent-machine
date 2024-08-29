@@ -12,4 +12,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/start-server
+      - name: test
+        uses: ./.github/start-server

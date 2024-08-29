@@ -31,11 +31,11 @@ jobs:
       - id: git-diff
         run:
           git diff --quiet HEAD || echo "changes=true" >> $GITHUB_OUTPUT
-      - name: test server can start
+      - id: test
         if: steps.git-diff.outputs.changes == 'true'
-        run: yes TESTVALUE | make docker-serve
+        uses: ./.github/start-server
       - name: Push Update
-        if: steps.git-diff.outputs.changes == 'true'
+        if: steps.test.outcome == 'success'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "bumping eidolon version"
@@ -57,11 +57,11 @@ jobs:
         run: make sync
       - id: git-diff
         run: git diff --quiet HEAD || echo "changes=true" >> $GITHUB_OUTPUT
-      - name: test server can start
+      - id: test
         if: steps.git-diff.outputs.changes == 'true'
-        run: yes TESTVALUE | make docker-serve
+        uses: ./.github/start-server
       - name: Push Sync
-        if: steps.git-diff.outputs.changes == 'true'
+        if: steps.test.outcome == 'success'
         run: |
           git config --global user.email "autosync@eidolonai.com"
           git config --global user.name "autosync"
