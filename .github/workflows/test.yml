@@ -1,0 +1,15 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test-start-server:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: yes TESTVALUE | make docker-serve
