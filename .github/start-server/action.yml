@@ -20,7 +20,7 @@ runs:
           current_time=$(date +%s)
           elapsed=$((current_time - start_time))
           
-          response=$(curl -sS -X GET 'http://localhost:8080/system/health' -H 'accept: application/json' -o /dev/null -w "%{http_code}")
+          response=$(curl -sS -X GET 'http://localhost:8080/system/health' -H 'accept: application/json' -o /dev/null -w "%{http_code}" --connect-timeout 2 --max-time 2 || echo "connection reset")
           if [ "$response" = "200" ]; then
             echo "Server is up and running"
             exit 0
