@@ -56,7 +56,7 @@ check-docker-daemon:
 	@docker info >/dev/null 2>&1 || (echo "🚨 Error: Docker daemon is not running\n🛟 For help installing or running docker, visit https://docs.docker.com/get-docker/" >&2 && exit 1)
 
 docker-serve: .env check-docker-daemon poetry.lock Dockerfile
-	@docker-compose up
+	docker compose up $(ARGS)
 
 update:
 	poetry add eidolon-ai-sdk@latest
