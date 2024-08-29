@@ -8,7 +8,7 @@ runs:
       shell: bash
       run: |
         set +o pipefail
-        yes TESTVALUE 2>/dev/null | make docker-serve ARGS="--detach"
+        yes TESTVALUE | make docker-serve ARGS="--detach"
         set -o pipefail
     - name: check server is running
       shell: bash
