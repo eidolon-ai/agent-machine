@@ -90,7 +90,7 @@ check-cluster-running:
 
 # Verify K8s permissions
 verify-k8s-permissions:
-	@./verify_k8s -q || (echo "K8s permission verification failed. Please check your permissions and try again." && exit 1)
+	@./k8s/verify_k8s -q || (echo "K8s permission verification failed. Please check your permissions and try again." && exit 1)
 
 # Check if Eidolon operator is installed, install if not
 check-install-operator:
