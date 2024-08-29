@@ -48,14 +48,14 @@ poetry.lock: pyproject.toml
 	@poetry lock --no-update
 	@touch poetry.lock
 
-Dockerfile: pyproject.toml
+Dockerfile: pyproject.toml .make
 	@sed -e 's/^ARG EIDOLON_VERSION=.*/ARG EIDOLON_VERSION=${SDK_VERSION}/' Dockerfile > Dockerfile.tmp && mv Dockerfile.tmp Dockerfile
 	@echo "Updated Dockerfile with EIDOLON_VERSION=${SDK_VERSION}"
 
 check-docker-daemon:
 	@docker info >/dev/null 2>&1 || (echo "🚨 Error: Docker daemon is not running\n🛟 For help installing or running docker, visit https://docs.docker.com/get-docker/" >&2 && exit 1)
 
-docker-serve: .env check-docker-daemon poetry.lock
+docker-serve: .env check-docker-daemon poetry.lock Dockerfile
 	@docker-compose up
 
 update:
