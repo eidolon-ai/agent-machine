@@ -7,12 +7,20 @@ from eidolon_ai_sdk.test_utils.server import serve_thread
 from eidolon_ai_sdk.test_utils.vcr import vcr_patch
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope='module')
+def vcr_config():
+    return dict(
+        ignore_localhost=True,
+        filter_headers=[('authorization', '*****')],
+    )
+
+
+@pytest.fixture(scope="session")
 def machine(tmp_path_factory):
     return TestMachine(tmp_path_factory.mktemp("test_utils_storage"))
 
 
-@pytest.fixture(scope="module", autouse=True)
+@pytest.fixture(scope="session", autouse=True)
 def server(machine):
     resources = load_resources([Path(__file__).parent.parent / "resources"])
     with serve_thread([machine, *resources]):
