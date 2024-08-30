@@ -11,7 +11,7 @@ def test_suite_initialization():
     assert True
 
 
-@pytest.mark.vcr
+@pytest.mark.vcr()
 async def test_agent(agent: Agent):
     process = await agent.create_process()
     response = await process.action("converse", "Hi! What is the capital of France?")
