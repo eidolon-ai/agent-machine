@@ -13,7 +13,7 @@ runs:
         make docker-serve ARGS="--detach"
     - name: wait for server to start
       shell: bash
-      run: docker-compose logs -f | sed -e '/Server Started/q' -e '/Failed to start/q1'
+      run: docker compose logs -f | sed -e '/Server Started/q' -e '/Failed to start/q1'
     - name: check server is running
       shell: bash
       run: |
