@@ -36,4 +36,4 @@ USER eidolon
 EXPOSE 8080
 ENV PYTHONUNBUFFERED 1
 ENTRYPOINT ["eidolon-server"]
-CMD ["resources"]
+CMD ["resources", "--fail-on-bad-agent"]
