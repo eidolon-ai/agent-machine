@@ -58,8 +58,12 @@ Dockerfile: pyproject.toml .make
 check-docker-daemon:
 	@docker info >/dev/null 2>&1 || (echo "🚨 Error: Docker daemon is not running\n🛟 For help installing or running docker, visit https://docs.docker.com/get-docker/" >&2 && exit 1)
 
-docker-serve: .env check-docker-daemon poetry.lock Dockerfile
+docker-serve: .env check-docker-daemon poetry.lock Dockerfile docker-compose.yml docker-build
 	docker compose up $(ARGS)
+
+docker-compose.yml: Makefile
+	@sed -e '/^  agent-server:/,/^  [^ ]/s/^    image: .*/    image: ${DOCKER_REPO_NAME}:latest/' docker-compose.yml > docker-compose.yml.tmp && mv docker-compose.yml.tmp docker-compose.yml
+	@echo "Updated docker-compose.yml with image ${DOCKER_REPO_NAME}:latest"
 
 update:
 	poetry add eidolon-ai-sdk@latest
