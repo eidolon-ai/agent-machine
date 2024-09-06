@@ -1,0 +1,24 @@
+ Network agent-machine_default  Creating
+ Network agent-machine_default  Created
+ Container agent-machine-agent-server-1  Creating
+ Container agent-machine-agent-server-1  Created
+ Container agent-machine-webui-1  Creating
+ Container agent-machine-webui-1  Created
+Attaching to agent-server-1, webui-1
+webui-1         |   ▲ Next.js 15.0.0-canary.123
+webui-1         |   - Local:        http://e52a6ee8f3cc:3000
+webui-1         |   - Network:      http://172.18.0.3:3000
+webui-1         | 
+webui-1         |  ✓ Starting...
+webui-1         |  ✓ Ready in 75ms
+agent-server-1  | INFO:     Will watch for changes in these directories: ['/app', '/bound_resources']
+agent-server-1  | INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+agent-server-1  | INFO:     Started reloader process [1] using WatchFiles
+agent-server-1  | INFO:     Started server process [11]
+agent-server-1  | INFO:     Waiting for application startup.
+agent-server-1  | INFO - Building machine 'local_dev'
+agent-server-1  | INFO - Starting agent 'hello-world'
+agent-server-1  | INFO - Collecting anonymous metrics, to disable metrics set DISABLE_ANONYMOUS_METRICS
+agent-server-1  | INFO - Server Started in 1.37s
+agent-server-1  | INFO - Request: GET http://localhost:8080/system/health
+agent-server-1  | INFO - Response: 200
