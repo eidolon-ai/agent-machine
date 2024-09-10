@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
       - name: test
         uses: ./.github/start-server
 
@@ -19,14 +21,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install poetry
-        run: pipx install poetry
+        run: |
+          pipx install poetry
+          make poetry.lock
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
           cache: 'poetry'
-      - run: poetry install
       - run: |
           set +o pipefail
           yes TESTVALUE | make .env
           set -o pipefail
-      - run: poetry run pytest
+      - run: make test

@@ -1,9 +1,8 @@
 DOCKER_REPO_NAME := my-eidolon-project
 VERSION := $(shell grep -m 1 '^version = ' pyproject.toml | awk -F '"' '{print $$2}')
-SDK_VERSION := $(shell awk '/^name = "eidolon-ai-sdk"$$/{f=1} f&&/^version = /{gsub(/"|,/,"",$$3); print $$3; exit}' poetry.lock)
 REQUIRED_ENVS := OPENAI_API_KEY
 
-.PHONY: serve serve-dev check docker-serve _docker-serve .env sync update docker-build pull-webui k8s-operator check-kubectl check-helm check-cluster-running verify-k8s-permissions check-install-operator k8s-serve k8s-env
+.PHONY: serve serve-dev check docker-serve _docker-serve .env sync update docker-build pull-webui k8s-operator check-kubectl check-helm check-cluster-running verify-k8s-permissions check-install-operator k8s-serve k8s-env test
 
 ARGS ?=
 
@@ -48,29 +47,29 @@ test: .make/poetry_install .env
 	@touch .make/poetry_install
 
 poetry.lock: pyproject.toml
-	@poetry lock --no-update
+	poetry lock --no-update
 	@touch poetry.lock
 
-Dockerfile: pyproject.toml .make
-	@sed -e 's/^ARG EIDOLON_VERSION=.*/ARG EIDOLON_VERSION=${SDK_VERSION}/' Dockerfile > Dockerfile.tmp && mv Dockerfile.tmp Dockerfile
-	@echo "Updated Dockerfile with EIDOLON_VERSION=${SDK_VERSION}"
+Dockerfile: pyproject.toml .make poetry.lock
+	@SDK_VERSION=$$(awk '/eidolon-ai-sdk/{getline; if ($$1 == "version") {gsub(/"|,/,"",$$3); print $$3; exit}}' poetry.lock); \
+	sed -e 's/^ARG EIDOLON_VERSION=.*/ARG EIDOLON_VERSION='$${SDK_VERSION}'/' Dockerfile > Dockerfile.tmp && mv Dockerfile.tmp Dockerfile; \
+	echo "Updated Dockerfile with EIDOLON_VERSION=$${SDK_VERSION}"
 
 check-docker-daemon:
 	@docker info >/dev/null 2>&1 || (echo "🚨 Error: Docker daemon is not running\n🛟 For help installing or running docker, visit https://docs.docker.com/get-docker/" >&2 && exit 1)
 
 docker-serve: .env check-docker-daemon poetry.lock Dockerfile docker-compose.yml
-	$(MAKE) -j2 _docker-serve
+	$(MAKE) -j2 _docker-serve ARGS=$(ARGS)
 
 _docker-serve: docker-build pull-webui
 	docker compose up $(ARGS)
 
-docker-compose.yml: Makefile
+docker-compose.yml:
 	@sed -e '/^  agent-server:/,/^  [^ ]/s/^    image: .*/    image: ${DOCKER_REPO_NAME}:latest/' docker-compose.yml > docker-compose.yml.tmp && mv docker-compose.yml.tmp docker-compose.yml
 	@echo "Updated docker-compose.yml with image ${DOCKER_REPO_NAME}:latest"
 
 update:
 	poetry add --lock eidolon-ai-sdk@latest
-	poetry lock --no-update
 	$(MAKE) Dockerfile
 
 sync:
@@ -80,8 +79,11 @@ sync:
 		git remote add upstream https://github.com/eidolon-ai/agent-machine.git; \
 		echo "upstream added"; \
 	fi
-	git fetch upstream
-	git merge upstream/main --no-edit
+	git pull upstream main --no-edit --no-commit
+	poetry lock --no-update
+	$(MAKE) Dockerfile
+	git add .
+	git commit -m "Sync with upstream"
 
 k8s-operator: check-kubectl check-helm check-cluster-running verify-k8s-permissions check-install-operator
 	@echo "K8s environment is ready. You can now deploy your application."
@@ -125,7 +127,7 @@ k8s-serve: k8s-server k8s-webui
 
 k8s-server: check-cluster-running docker-build k8s-env
 	@kubectl apply -f k8s/ephemeral_machine.yaml
-	@kubectl apply -f resources/
+	- @kubectl apply -f resources/
 	@kubectl apply -f k8s/eidolon-ext-service.yaml
 	@echo "Waiting for eidolon-deployment to be ready..."
 	@kubectl rollout status deployment/eidolon-deployment --timeout=60s

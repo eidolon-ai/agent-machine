@@ -1,0 +1,42 @@
+name: Setup
+
+on:
+  push:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if repository is fresh
+        id: check_fresh
+        run: |
+          commit_count=$(git rev-list --count HEAD)
+          if [ "$commit_count" -eq 1 ]; then
+            echo "Repository has only one commit. Proceeding with setup."
+            echo "is_fresh=true" >> $GITHUB_OUTPUT
+          else
+            echo "Repository has more than one commit. Skipping setup."
+            echo "is_fresh=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Install poetry
+        if: steps.check_fresh.outputs.is_fresh == 'true'
+        run: pipx install poetry
+      - name: Example setup step
+        if: steps.check_fresh.outputs.is_fresh == 'true'
+        run: |
+          make poetry.lock Dockerfile
+          rm -rf .github/workflows/setup.yml
+          rm -rf .github/workflows/update.yml
+          rm -rf .github/workflows/duplicate.yml
+      - name: Commit changes
+        if: steps.check_fresh.outputs.is_fresh == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "new repo setup"

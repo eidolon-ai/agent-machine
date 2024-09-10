@@ -10,18 +10,19 @@ concurrency:
 
 jobs:
   update:
-    if: github.repository == 'eidolon-ai/agent-machine'
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-serial-run
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
       - name: Install poetry
-        run: pipx install poetry
+        run: |
+          pipx install poetry
+          make poetry.lock
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -29,29 +30,33 @@ jobs:
       - name: "Updating Dependencies"
         run: make update
       - id: git-diff
-        run:
-          git diff --quiet HEAD || echo "changes=true" >> $GITHUB_OUTPUT
-      - id: test
+        run: git diff --quiet || echo "changes=true" >> $GITHUB_OUTPUT
+      - id: test-start-server
         if: steps.git-diff.outputs.changes == 'true'
         uses: ./.github/start-server
+      - id: pytest
+        if: steps.git-diff.outputs.changes == 'true'
+        run: make test
       - name: Push Update
-        if: steps.test.outcome == 'success'
+        if: steps.test-start-server.outcome == 'success' && steps.pytest.outcome == 'success' && github.repository != 'eidolon-ai/agent-machine'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "bumping eidolon version"
 
   sync:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-serial-run
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
       - name: Install poetry
-        run: pipx install poetry
+        run: |
+          pipx install poetry
+          make poetry.lock
       - name: Syncing fork with upstream
         run: |
           git config --global user.email "autosync@eidolonai.com"
@@ -59,9 +64,12 @@ jobs:
           make sync
       - id: git-diff
         run: git diff --quiet origin/main || echo "changes=true" >> $GITHUB_OUTPUT
-      - id: test
+      - id: test-start-server
         if: steps.git-diff.outputs.changes == 'true'
         uses: ./.github/start-server
+      - id: pytest
+        if: steps.git-diff.outputs.changes == 'true'
+        run: make test
       - name: Push Sync
-        if: steps.test.outcome == 'success'
+        if: steps.test-start-server.outcome == 'success' && steps.pytest.outcome == 'success' && github.repository != 'eidolon-ai/agent-machine'
         run: git push
