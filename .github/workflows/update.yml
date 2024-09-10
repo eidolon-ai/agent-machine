@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.ref }}
           fetch-depth: 0
           token: ${{ secrets.GH_PAT }}
       - name: Install poetry
@@ -50,7 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.ref }}
           fetch-depth: 0
           token: ${{ secrets.GH_PAT }}
       - name: Install poetry
